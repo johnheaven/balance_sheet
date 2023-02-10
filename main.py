@@ -1,14 +1,14 @@
 
 def main(filename):
-    from bal_sheet.get_xrs import get_xrs, xr_convert
-    from bal_sheet.import_statement import import_statement
+    from misc.get_xrs import add_xrs_to_statement, xr_convert
+    from misc.import_statement import import_statement
     from bal_sheet.bal_sheet import BalSheet
 
     # get statement from CSV
-    statement = import_statement()
+    statement = import_statement(filename)
     
     # add exchange rates to statement
-    statement = get_xrs(statement=statement)
+    statement = add_xrs_to_statement(statement=statement, cached=True)
 
     # run through transactions and build balance sheet
     bs = BalSheet(year=2020, tax_window=1)
@@ -40,4 +40,4 @@ def main(filename):
     pass
 
 if __name__ == '__main__':
-    main(filename='statements/coinbase_2020-2021.csv')
+    main(filename='statements/account.csv')

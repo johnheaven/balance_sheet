@@ -1,5 +1,5 @@
+from ..bal_sheet import BalSheet
 def test_1():
-    from bal_sheet.bal_sheet import BalSheet
     balsheet = BalSheet(year=2020, tax_window=1)
     balsheet.buy('BTC', 100, 5, '2019-01-01')
     balsheet.buy('BTC', 200, 5, '2019-12-31')
@@ -9,7 +9,6 @@ def test_1():
     assert(balsheet.taxable_profit == 200 * 2000 - 200 * 5)
 
 def test_2():
-    from bal_sheet.bal_sheet import BalSheet
     balsheet = BalSheet(year=2020, tax_window=1)
     balsheet.buy('BTC', 200, 5, '2018-12-31')
     balsheet.buy('BTC', 100, 5, '2019-01-01')
@@ -19,7 +18,6 @@ def test_2():
     assert(balsheet.taxable_profit == 0)
 
 def test_3():
-    from bal_sheet.bal_sheet import BalSheet
     balsheet = BalSheet(year=2020, tax_window=1)
     balsheet.buy('BTC', 100, 10, '2019-05-21')
     balsheet.buy('BTC', 200, 5, '2019-12-31')
@@ -30,7 +28,6 @@ def test_3():
 
 def test_4():
     # Test whether we get an assertion error if transactions are in the wrong (chronological) order
-    from bal_sheet.bal_sheet import BalSheet
     import pytest
     balsheet = BalSheet(year=2020, tax_window=1)
     balsheet.buy('BTC', 200, 5, '2019-12-31')
@@ -38,7 +35,6 @@ def test_4():
         balsheet.buy('BTC', 100, 10, '2019-05-21')
 
 def test_5():
-    from bal_sheet.bal_sheet import BalSheet
     balsheet = BalSheet(year=2020, tax_window=1)
     balsheet.buy('ETH', 100, 3, '2020-01-01')
     balsheet.buy('BTC', 300, 60, '2020-01-02') # 290
@@ -52,3 +48,10 @@ def test_5():
     
     print(balsheet.taxable_profit)
     assert(balsheet.taxable_profit == 250 * 2000 - 250 * 60 + 10 * 3000 - 10 * 60 + 200 * 5 - 15 * 55 - 100 * 20 - 85 * 3)
+
+if __name__ == '__main__':
+    test_1()
+    test_2()
+    test_3()
+    test_4()
+    test_5()

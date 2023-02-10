@@ -7,7 +7,6 @@ class BalSheet():
 
     def buy(self, name, pieces, piece_cost, buy_date: str):
         from collections import deque
-        from datetime import datetime
         # check for chronological order before adding
         new_buy = Item(pieces, piece_cost, buy_date)
         if self.stock.get(name, None) and new_buy.buy_date < self.stock[name][-1].buy_date:
@@ -26,7 +25,10 @@ class BalSheet():
         remainder = pieces
         # while remainder is > 0 with a tiny tolerance for miniscule remainders
         while remainder > pieces / 1e16:
-            item = self.stock[name].pop()
+            try:
+                item = self.stock[name].pop()
+            except KeyError:
+                raise KeyError(f'Attempted to sell {name} {remainder} but none remaining')
 
             # if we don't need to sell all of the item's contents
             if remainder < item.pieces_remaining:
